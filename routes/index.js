@@ -15,7 +15,7 @@ router.post('/submit', function(req, res) {
   var text = req.body.text;
  
   store.push(name, text);
-  io.sockets.emit("new_tweet", { new_tweet : store.find({ name: name, text: text }) });
+  io.sockets.emit("new_tweet", store.find({ name: name, text: text }) );
 });
 
 module.exports = router;

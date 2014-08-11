@@ -37,7 +37,7 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Twitter.js</a>
+            <a class="navbar-brand" href="./">Twitter.js</a>
           </div>
           <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
@@ -89,8 +89,22 @@
  
   // when 'new_tweet' events are fired, take our fileobj object and do something with it
   socket.on('new_tweet', function (new_tweet) { 
-    console.log(new_tweet);
-    alert('Refreshing... check the console...');
-    // add logic to load the new tweet
+    var tweet = new_tweet[0];
+    var tweetList = document.getElementById('tweet-list');
+    if (tweetList.className === tweet.name || tweetList.className === 'all') {
+      var tweet_box = document.createElement('div');
+      tweet_box.className = "tweetbox";
+      tweet_box.innerHTML = "<a href='/users/" + tweet.name + "/tweets/" + tweet.id 
+        + "'><img></a>"
+        + "<ul style='list-style: none' class = 'content'>" 
+        + "<li class = 'by'>" + "<a href='/users/" + tweet.name + "'>" + tweet.name + "</a>" + "</li>"
+        + "<li>" + tweet.text + "</li><li><a href = ''>Re-tweet</a></li>"
+        + "</ul>";
+      tweetList.appendChild(tweet_box);
+
+      //alert('Refreshing... check the console...');
+    } else {
+      console.log(tweet.name+" not in view.");
+    }
   }); 
 </script>

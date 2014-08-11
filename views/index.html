@@ -13,34 +13,42 @@
     </div>
     <div class="col-md-9">
       {% if show_form %}
-        <form action="/submit" method="POST">
-          <label for="name_field">Name:</label>
-          {% if name %}
-            <input name="name" type="text" id="name_field" value="{{name}}"/>
-          {% else %}
-            <input name="name" type="text" id="name_field" />
-          {% endif %}
-       
-          <label for="text_field">Text:</label>
-          <input name="text" type="text" id="text_field" style="width: 350px;" />
-       
-          <input type="submit" value="Submit" />
-        </form>
+        <div id="tweet-form">
+          <form action="/submit" method="POST">
+            <label for="name_field">Name:</label>
+            {% if name %}
+              <input name="name" type="text" id="name_field" value="{{name}}" />
+            {% else %}
+              <input name="name" type="text" id="name_field" />
+            {% endif %}
+         
+            <label for="text_field">Text:</label>
+            <input name="text" type="text" id="text_field" style="width: 350px;" />
+         
+            <input type="submit" value="Submit" />
+          </form>
+        </div>
       {% endif %}
-     <!-- display tweets here -->
-     <h1>All Tweets</h1>
-     {% for tweet in tweets %}
-     <div class='tweetbox'>
-       <img>
-       <ul style="list-style: none; " class = 'content'>
-         <li class = 'by'>
-            <a href="{{"/users/"+tweet.name}}">{{tweet.name}}</a>
-         </li>
-         <li>{{tweet.text}}</li>
-         <li><a href = "">Re-tweet</a></li>
-       </ul>
-     </div>
-     {% endfor %}
+      <!-- display tweets here -->
+      <h1>{{title}}</h1>
+      {% if name %}
+        <div id="tweet-list" class="{{name}}">
+      {% else %}
+        <div id="tweet-list" class="all">
+      {% endif %}
+        {% for tweet in tweets %}
+        <div class='tweetbox'>
+            <a href='{{"/users/"+tweet.name+"/tweets/"+tweet.tweet_id}}'><img></a>
+            <ul style="list-style: none; " class = 'content'>
+            <li class = 'by'>
+              <a href="{{'/users/'+tweet.name}}">{{tweet.name}}</a>
+            </li>
+            <li>{{tweet.text}}</li>
+            <li><a href = "">Re-tweet</a></li>
+          </ul>
+        </div>
+        {% endfor %}
+      </div>
     </div>
   </div>
     

@@ -1,15 +1,43 @@
 var _ = require("underscore");
 
+var hasher = function(){
+  var hash = [];
+  for (var i = 0; i < 11; i++) {
+    hash.push(String.fromCharCode(Math.floor(Math.random() * 255)));
+  };
+  return hash.join('');
+}();
+
+
+var hashMe = function(string) {
+  if (typeof string === 'undefined') return;
+  var hash_ret = [],
+      hash_off = Math.floor(Math.random() * 11);
+  for (var i = string.length - 1; i >= 0; i--) {
+    hash_ret.push(String.fromCharCode(hasher.charCodeAt((i+hash_off)%11) + string.charCodeAt(i)));
+  };
+  return {
+    'hash' : hash_ret.slice(0,10).join(''),
+    'off' : hash_off
+  }
+};
+
+
 var store = function () {
   var data = [];
  
   return {
     push: function(name, text){
-	  data.push({
-	    "name": name,
-	    "text": text
-	  })
-	},
+      var hashObj = hashMe(text+" by "+name);
+      var hash = hashObj.hash;
+  	  data.push({
+  	    "name": name,
+  	    "text": text,
+        "tweet_id": hash
+  	  });
+      console.log(data[data.length-1])
+      // io.sockets.emit("new_tweet", { new_tweet : store.find({ name: name, text: text }) });
+  	},
     list: function() {
     	return data;
     },
